@@ -247,5 +247,47 @@ namespace XSOverlay_VRChat_Parser.Avalonia.ViewModels
                 this.RaiseAndSetIfChanged(ref shaderKeywordsTimeout, value);
             }
         }
+        private string oscIpAddress;
+        public string OscIpAddress
+        {
+            get => UIMain.Configuration.OscIpAddress;
+            set
+            {
+                if (oscIpAddress != value)
+                {
+                    UIMain.Configuration.OscIpAddress = value;
+                    UIMain.SaveConfigurationDebounced();
+                }
+                this.RaiseAndSetIfChanged(ref oscIpAddress, value);
+            }
+        }
+        private string oscPort;
+        public string OscPort
+        {
+            get => UIMain.Configuration.OscPort;
+            set
+            {
+                if (oscPort != value)
+                {
+                    UIMain.Configuration.OscPort = value;
+                    UIMain.SaveConfigurationDebounced();
+                }
+                this.RaiseAndSetIfChanged(ref oscPort, value);
+            }
+        }
+        private bool oscMessagingChecked;
+        public bool OscMessagingChecked
+        {
+            get => UIMain.Configuration.SendOscMessages;
+            set
+            {
+                if (oscMessagingChecked != value)
+                {
+                    UIMain.Configuration.SendOscMessages = value;
+                    UIMain.SaveConfigurationDebounced();
+                }
+                this.RaiseAndSetIfChanged(ref oscMessagingChecked, value);
+            }
+        }
     }
 }

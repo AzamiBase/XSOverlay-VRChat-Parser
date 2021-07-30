@@ -60,5 +60,8 @@
     <Reference Include="AvaloniaEdit">
       <HintPath>Avalonia\Binaries\AvaloniaEdit.dll</HintPath>
     </Reference>
+    <Reference Include="SharpOSC">
+      <HintPath>Resources\SharpOSC.dll</HintPath>
+    </Reference>
   </ItemGroup>
 </Project>

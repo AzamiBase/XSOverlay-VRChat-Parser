@@ -96,15 +96,43 @@
       </Border>
     </Canvas>
 
-    <Canvas Width="580" Height="300" VerticalAlignment="Top" Margin="0 380 0 20">
+    <Canvas Width="580" Height="130" VerticalAlignment="Top" Margin="0 340 0 20">
+      <Border Background="#aa222222" BorderBrush="#aa222222" BorderThickness="0" CornerRadius="5" Canvas.Top="37">
+        <Canvas Width="580" Height="110" VerticalAlignment="Top">
+          <Border Width="580" Background="#44222222" BorderBrush="#aa222222" BorderThickness="0" CornerRadius="5">
+            <TextBlock HorizontalAlignment="Center" Text="OSC Settings" FontSize="18" FontWeight="Light" FontStyle="Italic" Margin="5 5 5 5"/>
+          </Border>
+          <StackPanel Margin="20 0 0 0" Canvas.Top="30" >
+            <TextBlock HorizontalAlignment="Center" Text="Type" Margin="0 10 0 10" />
+            <CheckBox IsChecked="{Binding OscMessagingChecked}" Height="40">OSC Enabled</CheckBox>
+          </StackPanel>
+          <StackPanel Margin="0 10 0 0" Canvas.Left="220" Canvas.Top="30">
+            <TextBlock Text="IP Address" HorizontalAlignment="Center" Height="20"></TextBlock>
+
+            <DockPanel Height="40">
+              <TextBox Text="{Binding OscIpAddress}" Height="30" DockPanel.Dock="Left" Width="120"/>
+            </DockPanel>
+          </StackPanel>
+          <StackPanel Margin="0 10 0 0" Canvas.Left="400" Canvas.Top="30">
+            <TextBlock Text="Port" HorizontalAlignment="Center" Height="20"></TextBlock>
+
+            <DockPanel Height="40">
+              <TextBox Text="{Binding OscPort}" Height="30" DockPanel.Dock="Left" Width="120"/>
+            </DockPanel>
+          </StackPanel>
+        </Canvas>
+      </Border>
+    </Canvas>
+
+    <Canvas Width="580" Height="300" VerticalAlignment="Top" Margin="0 500 0 20">
       <Border Background="#aa222222" BorderBrush="#aa222222" BorderThickness="0" CornerRadius="5">
-        <Canvas Width="580" Height="430" VerticalAlignment="Top">
+        <Canvas Width="580" Height="310" VerticalAlignment="Top">
           <Border HorizontalAlignment="Center" Width="580" Background="#44222222" BorderBrush="#aa222222" BorderThickness="0" CornerRadius="5">
             <TextBlock HorizontalAlignment="Center" Text="Event Log" FontSize="18" FontWeight="Light" FontStyle="Italic" Margin="5 5 5 5"/>
           </Border>
           <StackPanel Canvas.Top="30">
             <ae:TextEditor Name="EventLog" 
-                           Height="390" 
+                           Height="270" 
                            Width="565" 
                            Margin="5" 
                            VerticalScrollBarVisibility="Visible" 

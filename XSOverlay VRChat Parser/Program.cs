@@ -645,6 +645,13 @@ namespace XSOverlay_VRChat_Parser
                         {
                             PlayerIsBetweenWorlds = true;
                             Log(LogEventType.Event, $"Left world or exited client.");
+                        } else if (line.Contains("[OSC]") && Configuration.SendOscMessages)
+                        {
+                            string[] args = line.Split("[OSC] ").Last().Split(",");
+                            var message = new SharpOSC.OscMessage(args[0], args.Skip(1));
+                            var sender = new SharpOSC.UDPSender(Configuration.OscIpAddress, int.Parse(Configuration.OscPort));
+                            sender.Send(message);
+                            Log(LogEventType.Info, $"Sent OSC Message {string.Join(",", args)}");
                         }
                     }
                 }
