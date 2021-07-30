@@ -11,6 +11,7 @@ namespace XSOverlay_VRChat_Parser.Avalonia.ViewModels
             worldChangedChecked = WorldChangedChecked;
             portalDroppedChecked = PortalDroppedChecked;
             shaderKeywordsChecked = ShaderKeywordsChecked;
+            oscMessagingChecked = OscMessagingChecked;
             playerJoinedVolume = PlayerJoinedVolume;
             playerLeftVolume = PlayerLeftVolume;
             worldChangedVolume = WorldChangedVolume;
