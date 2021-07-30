@@ -648,7 +648,19 @@ namespace XSOverlay_VRChat_Parser
                         } else if (line.Contains("[OSC]") && Configuration.SendOscMessages)
                         {
                             string[] args = line.Split("[OSC] ").Last().Split(",");
-                            var message = new SharpOSC.OscMessage(args[0], args.Skip(1));
+
+                            var message = new SharpOSC.OscMessage(args[0]);
+                            var parameters = args.Skip(1).ToArray();
+                            foreach (var param in parameters)
+                            {
+                                if (float.TryParse(param, out float valFloat))
+                                    message.Arguments.Add(valFloat);
+                                else if (int.TryParse(param, out int valInt))
+                                    message.Arguments.Add(valInt);
+                                else
+                                    message.Arguments.Add(param);
+                            }
+
                             var sender = new SharpOSC.UDPSender(Configuration.OscIpAddress, int.Parse(Configuration.OscPort));
                             sender.Send(message);
                             Log(LogEventType.Info, $"Sent OSC Message {string.Join(",", args)}");
