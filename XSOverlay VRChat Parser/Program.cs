@@ -645,14 +645,16 @@ namespace XSOverlay_VRChat_Parser
                         {
                             PlayerIsBetweenWorlds = true;
                             Log(LogEventType.Event, $"Left world or exited client.");
-                        } else if (line.Contains("[OSC]") && Configuration.SendOscMessages)
+                        } 
+                        else if (line.Contains("[OSC]") && Configuration.SendOscMessages)
                         {
                             string[] args = line.Split("[OSC] ").Last().Split(",");
 
                             var message = new SharpOSC.OscMessage(args[0]);
-                            var parameters = args.Skip(1).ToArray();
-                            foreach (var param in parameters)
+                            foreach (var param in args.Skip(1))
                             {
+                                if (string.IsNullOrEmpty(param))
+                                    continue;
                                 if (float.TryParse(param, out float valFloat))
                                     message.Arguments.Add(valFloat);
                                 else if (int.TryParse(param, out int valInt))
@@ -661,9 +663,15 @@ namespace XSOverlay_VRChat_Parser
                                     message.Arguments.Add(param);
                             }
 
-                            var sender = new SharpOSC.UDPSender(Configuration.OscIpAddress, int.Parse(Configuration.OscPort));
-                            sender.Send(message);
-                            Log(LogEventType.Info, $"Sent OSC Message {string.Join(",", args)}");
+                            try
+                            {
+                                var sender = new SharpOSC.UDPSender(Configuration.OscIpAddress, Configuration.OscPort);
+                                sender.Send(message);
+                                Log(LogEventType.Info, $"Sent OSC Message {string.Join(",", args)}");
+                            } catch (System.Net.Sockets.SocketException)
+                            {
+                                Log(LogEventType.Error, $"Cannot send OSC Message. No such host is known {Configuration.OscIpAddress}:{Configuration.OscPort}");
+                            }
                         }
                     }
                 }

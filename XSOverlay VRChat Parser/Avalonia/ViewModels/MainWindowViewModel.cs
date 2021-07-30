@@ -1,4 +1,5 @@
 ﻿using ReactiveUI;
+using System;
 
 namespace XSOverlay_VRChat_Parser.Avalonia.ViewModels
 {
@@ -262,18 +263,23 @@ namespace XSOverlay_VRChat_Parser.Avalonia.ViewModels
                 this.RaiseAndSetIfChanged(ref oscIpAddress, value);
             }
         }
-        private string oscPort;
-        public string OscPort
+        private string oscPortStr;
+        public string OscPortStr
         {
-            get => UIMain.Configuration.OscPort;
+            get => UIMain.Configuration.OscPort.ToString();
             set
             {
-                if (oscPort != value)
+                if (oscPortStr != value)
                 {
-                    UIMain.Configuration.OscPort = value;
+                    int newPort;
+                    if (!int.TryParse(value.ToString(), out newPort))
+                        return;
+                    newPort = Math.Clamp(newPort, 0, ushort.MaxValue);
+                    oscPortStr = newPort.ToString();
+                    UIMain.Configuration.OscPort = newPort;
                     UIMain.SaveConfigurationDebounced();
                 }
-                this.RaiseAndSetIfChanged(ref oscPort, value);
+                this.RaiseAndSetIfChanged(ref oscPortStr, value);
             }
         }
         private bool oscMessagingChecked;

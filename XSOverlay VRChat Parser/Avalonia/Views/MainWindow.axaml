@@ -117,7 +117,7 @@
             <TextBlock Text="Port" HorizontalAlignment="Center" Height="20"></TextBlock>
 
             <DockPanel Height="40">
-              <TextBox Text="{Binding OscPort}" Height="30" DockPanel.Dock="Left" Width="120"/>
+              <TextBox Text="{Binding OscPortStr}" Height="30" DockPanel.Dock="Left" Width="120"/>
             </DockPanel>
           </StackPanel>
         </Canvas>

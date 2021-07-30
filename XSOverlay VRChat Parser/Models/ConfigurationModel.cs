@@ -90,7 +90,7 @@ namespace XSOverlay_VRChat_Parser.Models
         [Annotation("IP Address that OSC Messages are sent to. Accepts any values at the moment.")]
         public string OscIpAddress { get; set; }
         [Annotation("Port for the IP that OSC Messages are sent to. Accepts any values at the moment.")]
-        public string OscPort { get; set; }
+        public int OscPort { get; set; }
         [Annotation("Determines whether or not OSC messages are parsed and sent. Valid values: true, false")]
         public bool SendOscMessages { get; set; }
 
