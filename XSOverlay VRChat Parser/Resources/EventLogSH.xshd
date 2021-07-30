@@ -5,6 +5,7 @@
   <Color name="MessageTypeError" foreground="White" background="Red" exampleText="ERROR" />
   <Color name="MessageTypeInfo" foreground="Gray" exampleText="ERROR" />
   <Color name="MessageTypeEvent" foreground="Gray" exampleText="ERROR" />
+  <Color name="MessageTypeOsc" foreground="#03a5fc" exampleText="OSC" />
   
   <Color name="VRCPlayerJoined" foreground="LightGreen" exampleText="Player Joined" />
   <Color name="VRCWorldChange" foreground="Plum" exampleText="World Changed" />
@@ -18,6 +19,9 @@
     </Rule>
     <Keywords color="MessageTypeInfo">
       <Word>&lt;INFO&gt;</Word>
+    </Keywords>
+    <Keywords color="MessageTypeOsc">
+      <Word>&lt;OSC&gt;</Word>
     </Keywords>
     <Keywords color="MessageTypeEvent">
       <Word>&lt;EVENT&gt;</Word>

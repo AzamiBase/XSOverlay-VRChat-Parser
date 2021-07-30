@@ -296,5 +296,24 @@ namespace XSOverlay_VRChat_Parser.Avalonia.ViewModels
                 this.RaiseAndSetIfChanged(ref oscMessagingChecked, value);
             }
         }
+        private string oscTimeoutMs;
+        public string OscTimeoutMs
+        {
+            get => UIMain.Configuration.OscTimeoutMs.ToString();
+            set
+            {
+                if (oscTimeoutMs != value)
+                {
+                    int newMs;
+                    if (!int.TryParse(value.ToString(), out newMs))
+                        return;
+                    newMs = Math.Clamp(newMs, 25, int.MaxValue);
+                    oscTimeoutMs = newMs.ToString();
+                    UIMain.Configuration.OscTimeoutMs = newMs;
+                    UIMain.SaveConfigurationDebounced();
+                }
+                this.RaiseAndSetIfChanged(ref oscTimeoutMs, value);
+            }
+        }
     }
 }

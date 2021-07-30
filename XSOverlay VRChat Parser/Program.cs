@@ -3,6 +3,7 @@ using Avalonia.ReactiveUI;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -54,6 +55,7 @@ namespace XSOverlay_VRChat_Parser
         static volatile bool IsExiting = false;
         static int DispatchResolutionMilliseconds = 50;
         static volatile int DispatchRemainingDelay = 0;
+        static Stopwatch OscTimeoutStopwatch = new Stopwatch();
 
         static void Main(string[] args)
         {
@@ -152,6 +154,8 @@ namespace XSOverlay_VRChat_Parser
                 Exit();
             }
 
+            OscTimeoutStopwatch = Stopwatch.StartNew();
+
             UIMain.Start(args, BuildAvaloniaApp(), Configuration); // Blocking call to UI lifecycle
             Exit();
         }
@@ -200,7 +204,7 @@ namespace XSOverlay_VRChat_Parser
             DateTime now = DateTime.Now;
             string dateStamp = $"{now.Year:0000}/{now.Month:00}/{now.Day:00}";
             string timeStamp = $"{now.Hour:00}:{now.Minute:00}:{now.Second:00}";
-            string typeStamp = $"{(type == LogEventType.Info ? "INFO" : (type == LogEventType.Event ? "EVENT" : "ERROR"))}";
+            string typeStamp = $"{(type == LogEventType.OSC ? "OSC" : (type == LogEventType.Info ? "INFO" : (type == LogEventType.Event ? "EVENT" : "ERROR")))}";
 
             lock (logMutex)
             {
@@ -645,9 +649,14 @@ namespace XSOverlay_VRChat_Parser
                         {
                             PlayerIsBetweenWorlds = true;
                             Log(LogEventType.Event, $"Left world or exited client.");
-                        } 
+                        }
                         else if (line.Contains("[OSC]") && Configuration.SendOscMessages)
                         {
+                            var elapsed = OscTimeoutStopwatch.ElapsedMilliseconds;
+                            if (elapsed < Configuration.OscTimeoutMs)
+                                return;
+                            OscTimeoutStopwatch = Stopwatch.StartNew();
+
                             string[] args = line.Split("[OSC] ").Last().Split(",");
 
                             var message = new SharpOSC.OscMessage(args[0]);
@@ -667,7 +676,7 @@ namespace XSOverlay_VRChat_Parser
                             {
                                 var sender = new SharpOSC.UDPSender(Configuration.OscIpAddress, Configuration.OscPort);
                                 sender.Send(message);
-                                Log(LogEventType.Info, $"Sent OSC Message {string.Join(",", args)}");
+                                Log(LogEventType.OSC, $"Sent message {string.Join(",", args)}");
                             } catch (System.Net.Sockets.SocketException)
                             {
                                 Log(LogEventType.Error, $"Cannot send OSC Message. No such host is known {Configuration.OscIpAddress}:{Configuration.OscPort}");

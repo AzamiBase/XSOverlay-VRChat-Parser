@@ -93,6 +93,8 @@ namespace XSOverlay_VRChat_Parser.Models
         public int OscPort { get; set; }
         [Annotation("Determines whether or not OSC messages are parsed and sent. Valid values: true, false")]
         public bool SendOscMessages { get; set; }
+        [Annotation("Minimum time that must pass before another OSC Message can be sent. Lowest acceptable value is 25ms")]
+        public int OscTimeoutMs { get; set; }
 
 
         public ConfigurationModel()
